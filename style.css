@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+div {
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.header {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100px;
+    padding-top: 20px;
+    font-size: 52px;
+    font-weight: 600;
+    text-align: center;
+    background-color: lightgray;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.calculator-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    width: 350px;
+    height: 700px;
+    background-color: orange;
+    border-radius: 20px;
+    border: 3px solid black;
+    padding: 20px;
+}
+
+button {
+    font-size: 25px;
+    padding: 16px 24px;
+    background-color: grey;
+    font-weight: 700;
+    border: 3px solid black;
+    border-radius: 20px;
+    width: 30%;
+    flex: auto;
+    text-align: center;
+}
+
+.display-box {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    height: 120px;
+    background-color: grey;
+    border: 3px solid black;
+    border-radius: 20px;
+    width: 100%;
+    flex: auto;
+}
+
+.calculation-box {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 12px;    
+}
+.numbers-box {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex: 3 3 auto;
+    column-gap: 8px;
+    row-gap: 15px;
+    align-content: stretch;
+
+}
+.operand-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 15px;
+    flex: 1 1 auto;
+}
+
+#solution-display {
+    box-sizing: border-box;
+    margin: 0;
+    font-size: 100px;
+    flex: 2 2 auto;
+}
+#typed-value {
+    margin: 0;
+    font-size:  70px;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+}
