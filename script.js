@@ -1,114 +1,148 @@
 const storeOperand = document.querySelector('.numbers-box');
 const storeOperator = document.querySelector('.operand-box');
 
-let valueOne = '';
-let valueTwo = '';
-let operationValue = '';
-let solution = null;
+let variableOne = 0;
+let operator = '';
+let variableTwo = '';
 
-storeOperand.addEventListener('click', (event)=>{
+storeOperand.addEventListener('click', (event)=> {
     if(event.target.className === 'number-box'){
         return;
     }else {
-        valueChecker(event.target);
+        valueChecker(event.target.value);
     }
 })
 
 storeOperator.addEventListener('click', (event)=>{
-    if(event.target.className === 'operand-box'){
+    if(event.target.className === 'operand-box' || event.target.value === 'undefined'){
         return;
     }else {
-        valueChecker(event.target);
+        valueChecker(event.target.value);
     }
 })
 
 let stringValue = '';
 
-function valueChecker(targetElement){
-    let targetValue = targetElement.value;
-    if(!isNaN(Number(targetValue))){
-        stringValue += targetValue;
-    }else {
-        if(!valueTwo){
-            valueTwo = stringValue;
-            display();
-        }else {
-            valueOne = stringValue;
-            display();
+function valueChecker(elementValue){
+    // if(!operator && isNaN(Number(elementValue))){
+    //     return;
+    // }
+    if(elementValue === '--'){
+        clear();
+        return;
+    }else if(elementValue === '!-'){
+        allClear();
+        return;
+    }else if(elementValue === '='){
+        if(operator === ''){
+            return;
         }
-        if(!operationValue){
-            operationValue = targetValue;
+        variableTwo = Number(stringValue);
+        operationRun(operator);
+        return;
+    }
+
+
+    if(!isNaN(Number(elementValue))){
+        stringValue += elementValue;
+        display();
+
+    }else {
+
+        if(!variableOne){
+            variableOne = Number(stringValue);
+            stringValue='';
+            display();
+
         }else {
-            switch(operationValue){
+            variableTwo = Number(stringValue);
+            stringValue = '';
+
+            switch(operator){
                 case '+':
+                    operator = elementValue;
                     addition();
-                    operationValue = targetValue;
                     break;
                 case '-':
+                    operator = elementValue;
                     subtraction();
-                    operationValue = targetValue;
                     break;
                 case '*':
+                    operator = elementValue;
                     multiplication();
-                    operationValue = targetValue;
                     break;
                 case '/':
+                    operator = elementValue;
                     division();
-                    operationValue = targetValue;
-                    break;
-                case '=':
-                    operationRun(targetValue);
                     break;
             }
+
+            operator = elementValue;
+            display();
         }
-    }
-}
-const displayBox = document.querySelector('.display-box');
-function display(){
-    if(!solution){
-        displayBox.lastElementChild.textcontent = solution;
-    }else {
-        displayBox.firstElementChild.textContent = valueOne;
-    }
-}
-let addition = function(){
-    let variableOne = Number(valueOne);
-    let variableTwo = Number(valueTwo);
-    if(!isNaN(Number(solution))){
-        solution = variableOne + variableTwo;
-    }else {
-        solution += variableOne;
-    }
-}
-let multiplication = function(){
-    let variableOne = Number(valueOne);
-    let variableTwo = Number(valueTwo);
-    if(!isNaN(Number(solution))){
-        solution = variableOne + variableTwo;
-    }else {
-        solution *= variableOne;
-    }
-}
-let subtraction = function(){
-    let variableOne = Number(valueOne);
-    let variableTwo = Number(valueTwo);
-    if(!isNan(Number(solution))){
-        solution = variableOne + variableTwo;
-    }else {
-        solution -= variableOne;
-    }
-}
-let division = function(){
-    let variableOne = Number(valueOne);
-    let variableTwo = Number(valueTwo);
-    if(!isNan(Number(solution))){
-        solution = variableOne + variableTwo;
-    }else {
-        solution /= variableOne;
     }
 }
 
+function clear(){
+    if(stringValue){
+        stringValue = stringValue.slice(0,-1);
+        display();
+    }else if(operator){
+        operator = '';
+    }else {
+        return;
+    }
+}
+const displayBox = document.querySelector('.display-box');
+
+function display(){
+    if(operator === '='){
+        displayBox.firstElementChild.textContent = variableOne;
+        displayBox.lastElementChild.textContent = '0';
+        return;
+    }
+    displayBox.firstElementChild.textContent = variableOne;
+    displayBox.lastElementChild.textContent = operator + ' ' + stringValue;
+
+}
+let addition = function(){
+    variableOne += variableTwo;
+    display();
+}
+let multiplication = function(){
+    variableOne *= variableTwo;
+    display();
+}
+let subtraction = function(){
+    variableOne -= variableTwo;
+    display();
+}
+
+let division = function(){
+    if(variableTwo === 0){
+
+        display();
+        displayBox.firstElementChild.textContent = 'ERROR';
+        return;
+    }else if(variableTwo === ''){
+        console.log(variableTwo)
+;        variableTwo = 1;
+    }
+    variableOne = variableOne/variableTwo ;
+    display();
+}
+
+function allClear(){
+    stringValue = '';
+    operator = '';
+    variableOne = 0;
+    variableTwo = 0;
+    displayBox.firstElementChild.textContent = variableOne;
+    displayBox.lastElementChild.textContent = '0';
+
+}
 function operationRun(value){
+    operator = '=';
     switch(value){
         case '+':
             addition();
