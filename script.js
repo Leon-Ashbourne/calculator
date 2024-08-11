@@ -5,8 +5,8 @@ let variableOne = 0;
 let operator = '';
 let variableTwo = '';
 
-storeOperand.addEventListener('click', (event)=> {
-    if(event.target.className === 'number-box'){
+storeOperand.addEventListener('mousedown', (event)=> {
+    if(event.target.className === 'number-box'|| event.target.value === 'undefined'){
         return;
     }else {
         valueChecker(event.target.value);
@@ -22,11 +22,26 @@ storeOperator.addEventListener('click', (event)=>{
 })
 
 let stringValue = '';
-
+let check = true;
+function isFirstTime(){
+    return check;
+}
 function valueChecker(elementValue){
     // if(!operator && isNaN(Number(elementValue))){
     //     return;
     // }
+    if(isFirstTime() && !operator && (elementValue === '-' || elementValue === '+') && 
+        !stringValue && !variableOne){
+
+        stringValue += elementValue;
+        check = false;
+        display();
+        return;
+
+    }else if(operator === elementValue && !stringValue){
+        return;
+    }
+    
     if(elementValue === '--'){
         clear();
         return;
@@ -42,22 +57,23 @@ function valueChecker(elementValue){
         return;
     }
 
-
+    
     if(!isNaN(Number(elementValue))){
         stringValue += elementValue;
         display();
 
     }else {
-
-        if(!variableOne){
+        if(!variableOne && stringValue){
             variableOne = Number(stringValue);
             stringValue='';
+            operator = elementValue;
             display();
 
         }else {
+            if(stringValue){
             variableTwo = Number(stringValue);
             stringValue = '';
-
+            }
             switch(operator){
                 case '+':
                     operator = elementValue;
@@ -110,6 +126,9 @@ let addition = function(){
     display();
 }
 let multiplication = function(){
+    if(!variableTwo){
+
+    }
     variableOne *= variableTwo;
     display();
 }
